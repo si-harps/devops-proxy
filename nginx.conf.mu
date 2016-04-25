@@ -2,7 +2,7 @@
 user  nginx;
 worker_processes  1;
 
-error_log  /var/log/nginx/error.log warn;
+error_log  /proc/1/fd/1 warn;
 pid        /var/run/nginx.pid;
 
 
@@ -19,7 +19,7 @@ http {
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
-    access_log  /var/log/nginx/access.log  main;
+    access_log  /proc/1/fd/1 main;
 
     sendfile        off;
 
@@ -42,7 +42,7 @@ http {
     {{#services}}
 
     server {
-      listen 80;
+      listen 8080;
       server_name {{proxy.domain}};
       location / {
           proxy_pass http://{{name}}_services/;

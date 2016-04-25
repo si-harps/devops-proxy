@@ -10,9 +10,9 @@ build:
 	docker-compose -p $(APP_NAME)$(VERSION) build app
 	docker tag $(APP_NAME)$(VERSION)_app $(DOCKER_REPO)/$(APP_NAME):$(VERSION)
 	docker tag $(APP_NAME)$(VERSION)_app $(DOCKER_REPO)/$(APP_NAME):latest
-	-docker ps -af status=exited | xargs docker rm
+	-docker ps -aqf status=exited | xargs docker rm
 	-docker rmi $(APP_NAME)$(VERSION)_app
-	-docker images -qa -f dangling=true | xargs docker rmi
+	-docker images -qaf dangling=true | xargs docker rmi
 	docker images | grep $(DOCKER_REPO)/$(APP_NAME)
 
 push:

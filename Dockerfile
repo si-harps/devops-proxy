@@ -27,6 +27,7 @@ ADD public /app/public
 ADD src /app/src
 ADD server.js /app/server.js
 ADD VERSION /app/VERSION
+ADD proxies.yml /app/proxies.yml
 
 ADD nginx.conf /etc/nginx/nginx.conf
 # ADD nginx.conf.mu /etc/nginx/nginx.conf

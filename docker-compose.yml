@@ -6,5 +6,31 @@ services:
     ports:
       - 3000:3000
       - 8080:8080
-    # volumes:
-    #   - ./server.js:/app/server.js
+    environment:
+      CONSUL_HOST: consul
+    volumes:
+      - ./server.js:/app/server.js
+      - ./src:/app/src
+      - ./proxies.yml:/app/proxies.yml
+      - ./nginx.conf.mu:/app/nginx.conf.mu
+  consul:
+    image: gliderlabs/consul-server:0.6
+    command:
+      - -dev
+      - -ui
+  registrator:
+    image: renegare/registrator:5da7dd5
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    command:
+      - -resync
+      - "5"
+      - -internal
+      - consul://consul:8500
+  mudi:
+    image: renegare/ecsproxy:4af3de9
+    environment:
+      SERVICE_NAME: mudi
+      SERVICE_TAGS: web,prod
+    ports:
+      - 3000
