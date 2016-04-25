@@ -3,10 +3,19 @@
   "version": "0.0.0-0",
   "description": "Consul backed nginx proxy (nodejs backup server)",
   "main": "server.js",
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "consul": "^0.25.0",
+    "koa": "^1.2.0",
+    "koa-router": "^5.4.0",
+    "koa-static": "^2.0.0",
+    "moment": "^2.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.1"
+  },
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "dev": "nodemon `which npm` start"
   },
   "repository": {
     "type": "git",
