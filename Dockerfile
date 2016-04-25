@@ -24,6 +24,7 @@ ADD package.json ./package.json
 RUN npm install
 
 ADD public /app/public
+ADD src /app/src
 ADD server.js /app/server.js
 ADD VERSION /app/VERSION
 
