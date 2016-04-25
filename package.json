@@ -1,0 +1,29 @@
+{
+  "name": "devops-proxy",
+  "version": "0.0.0-0",
+  "description": "Consul backed nginx proxy (nodejs backup server)",
+  "main": "server.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renegare/devops-proxy.git"
+  },
+  "keywords": [
+    "consul",
+    "proxy",
+    "web",
+    "nignx",
+    "docker",
+    "koa"
+  ],
+  "author": "mudi@renegare.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/renegare/devops-proxy/issues"
+  },
+  "homepage": "https://github.com/renegare/devops-proxy#readme"
+}
