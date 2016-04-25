@@ -41,22 +41,23 @@ const nginx = exec('nginx -g "daemon off;"', {}, (err, stdout, stderr) => {
     quit()
   }
 })
-// nginx.on('close', (code, signal) => {
-//   debug('nignx process close event', code, signal)
-//   quit(code)
-// })
-//
-// nginx.on('close', (code, signal) => {
-//   debug('nignx process close event', code, signal)
-//   quit(code)
-// })
-//
-// nginx.on('error', (err) => {
-//   debug('nignx process error event', err)
-//   quit()
-// })
-//
-// nginx.on('exit', (code, signal) => {
-//   debug('nignx process exit event', code, signal)
-//   quit(code)
-// })
+
+nginx.on('close', (code, signal) => {
+  debug('nignx process close event', code, signal)
+  quit(code)
+})
+
+nginx.on('close', (code, signal) => {
+  debug('nignx process close event', code, signal)
+  quit(code)
+})
+
+nginx.on('error', (err) => {
+  debug('nignx process error event', err)
+  quit()
+})
+
+nginx.on('exit', (code, signal) => {
+  debug('nignx process exit event', code, signal)
+  quit(code)
+})
