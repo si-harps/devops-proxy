@@ -27,4 +27,4 @@ ADD . /app
 
 EXPOSE 3000 8080
 
-CMD ["npm", "start"]
+ENTRYPOINT ["/app/entry.sh"]
