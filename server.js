@@ -12,7 +12,8 @@ const updateNginxConf = (services) => {
 
 const consul = require('./src/consul')({
   CONSUL_HOST: process.env.CONSUL_HOST || '127.0.0.1',
-  CONSUL_PORT: process.env.CONSUL_PORT || '8500'
+  CONSUL_PORT: process.env.CONSUL_PORT || '8500',
+  PROXIES_KEY: process.env.PROXIES_KEY || 'proxies'
 })
 
 

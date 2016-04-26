@@ -57,7 +57,7 @@ module.exports = (config) => {
 
   const watchProxies = consul.watch({
     method: consul.kv.get,
-    options: {key: 'proxies'}
+    options: {key: config.PROXIES_KEY}
   })
 
   watchProxies.on('change', (data) => {
