@@ -1,6 +1,5 @@
 const app = require('koa')()
 
-
 app.use(function * () {
   this.body = 'consul'
 })
