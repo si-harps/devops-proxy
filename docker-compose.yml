@@ -9,6 +9,7 @@ services:
     environment:
       # GET_CONSUL_HOST: http://e29ec31c.ngrok.io/
       CONSUL_HOST: consul
+      PROXIES_KEY: 'mudi/was/here'
     volumes:
       - .:/app
   consul:
