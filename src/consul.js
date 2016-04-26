@@ -1,6 +1,4 @@
 const Promise = require('bluebird')
-const yaml = require('js-yaml')
-const fs = require('fs')
 const all = Promise.all
 const path = require('path')
 const debug = require('debug')('proxy:consul')
@@ -42,7 +40,7 @@ module.exports = (config) => {
     }
   })
 
-  const proxies = yaml.safeLoad(fs.readFileSync(config.PROXY_CONFIG_PATH, 'utf8'))
+  const proxies = config.PROXIES
   const watch = consul.watch({
     method: consul.catalog.service.list
   })

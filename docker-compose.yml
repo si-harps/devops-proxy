@@ -9,10 +9,7 @@ services:
     environment:
       CONSUL_HOST: consul
     volumes:
-      - ./server.js:/app/server.js
-      - ./src:/app/src
-      - ./proxies.yml:/app/proxies.yml
-      - ./nginx.conf.mu:/app/nginx.conf.mu
+      - .:/app
   consul:
     image: gliderlabs/consul-server:0.6
     command:
@@ -32,5 +29,3 @@ services:
     environment:
       SERVICE_NAME: mudi
       SERVICE_TAGS: web,prod
-    ports:
-      - 3000

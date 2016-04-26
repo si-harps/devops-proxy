@@ -23,14 +23,7 @@ WORKDIR /app
 ADD package.json ./package.json
 RUN npm install
 
-ADD public /app/public
-ADD src /app/src
-ADD server.js /app/server.js
-ADD VERSION /app/VERSION
-ADD proxies.yml /app/proxies.yml
-
-ADD nginx.conf /etc/nginx/nginx.conf
-# ADD nginx.conf.mu /etc/nginx/nginx.conf
+ADD . /app
 
 EXPOSE 3000 8080
 
