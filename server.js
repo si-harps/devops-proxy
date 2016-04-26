@@ -10,11 +10,9 @@ const updateNginxConf = (services) => {
   fs.writeFileSync('/etc/nginx/nginx.conf', conf)
 }
 
-const proxies = yaml.safeLoad(fs.readFileSync(process.env.PROXY_CONFIG_PATH || __dirname + '/proxies.yml', 'utf8'))
 const consul = require('./src/consul')({
   CONSUL_HOST: process.env.CONSUL_HOST || '127.0.0.1',
-  CONSUL_PORT: process.env.CONSUL_PORT || '8500',
-  PROXIES: proxies
+  CONSUL_PORT: process.env.CONSUL_PORT || '8500'
 })
 
 

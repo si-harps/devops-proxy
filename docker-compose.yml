@@ -16,13 +16,15 @@ services:
     command:
       - -dev
       - -ui
+    ports:
+      - 8500:8500
   registrator:
     image: renegare/registrator:5da7dd5
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock
     command:
-      - -resync
-      - "5"
+      # - -resync
+      # - "5"
       - -internal
       - consul://consul:8500
   mudi:

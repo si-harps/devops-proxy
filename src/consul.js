@@ -1,3 +1,5 @@
+'use strict'
+
 const Promise = require('bluebird')
 const all = Promise.all
 const path = require('path')
@@ -40,21 +42,49 @@ module.exports = (config) => {
     }
   })
 
-  const proxies = config.PROXIES
-  const watch = consul.watch({
-    method: consul.catalog.service.list
-  })
+  let proxies = {}
+  let services = {}
 
-  watch.on('change', (services, res) => {
+  const getProxiedServices = (proxies, services, consul, cb) => {
     all(Object.keys(services).map(name => getInstances(consul, name)))
     .then(services =>
       services.map(service =>
         Object.assign({}, service, {proxy: proxies[service.name]})))
     .filter(service => !!service.proxy && service.instances.length)
-    .then(services => events.emit('change', services))
+    .then(cb)
+
+  }
+
+  const watchProxies = consul.watch({
+    method: consul.kv.get,
+    options: {key: 'proxies'}
   })
 
-  watch.on('error', (err) => {
+  watchProxies.on('change', (data) => {
+    debug('proxy change', data)
+    try {
+      proxies = JSON.parse(data.Value) || {}
+      getProxiedServices(proxies, services, consul, services => events.emit('change', services))
+    } catch (err) {
+      debug('error processing proxy config', err)
+    }
+  })
+
+  watchProxies.on('error', (err) => {
+    debug('error', err)
+  })
+
+  const watchServices = consul.watch({
+    method: consul.catalog.service.list
+  })
+
+  watchServices.on('change', (data) => {
+    debug('service change', data)
+    services = data
+    getProxiedServices(proxies, services, consul, services => events.emit('change', services))
+  })
+
+  watchServices.on('error', (err) => {
     debug('error', err)
   })
 
