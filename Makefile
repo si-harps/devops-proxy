@@ -1,17 +1,13 @@
 VERSION=$(shell git rev-parse --short HEAD)
 DOCKER_REPO=renegare
-APP_NAME=devopsproxy
+APP_NAME=devops-proxy
 
 
 build:
 	echo $(VERSION) > VERSION
-	docker-compose build app
-	docker-compose build app
-	docker-compose -p $(APP_NAME)$(VERSION) build app
-	docker tag $(APP_NAME)$(VERSION)_app $(DOCKER_REPO)/$(APP_NAME):$(VERSION)
-	docker tag $(APP_NAME)$(VERSION)_app $(DOCKER_REPO)/$(APP_NAME):latest
-	-docker ps -aqf status=exited | xargs docker rm
-	-docker rmi $(APP_NAME)$(VERSION)_app
+	docker build -t $(DOCKER_REPO)/$(APP_NAME):latest .
+	docker tag $(DOCKER_REPO)/$(APP_NAME):latest $(DOCKER_REPO)/$(APP_NAME):$(VERSION)
+	-docker ps -qaf status=exited | xargs docker rm
 	-docker images -qaf dangling=true | xargs docker rmi
 	docker images | grep $(DOCKER_REPO)/$(APP_NAME)
 

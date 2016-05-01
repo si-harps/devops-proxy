@@ -1,0 +1,23 @@
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker -v
+    - make build:
+        timeout: 1200
+
+test:
+  override:
+    - echo "Testing ... Done! \#NOT"
+
+deployment:
+  registry:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_REGISTRY_EMAIL -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS
+      - make push:
+          timeout: 1200
