@@ -30,10 +30,9 @@ http {
     }
 
     {{#services}}
-    upstream {{name}}_services {
-      {{#instances}}
-      server {{Address}}:{{Port}}; # instance id: {{ID}}
-      {{/instances}}
+    upstream {{name}}_service {
+      server {{egress_host}}:{{port}};
+      server 127.0.0.1:3000 backup;
     }
 
     {{/services}}
@@ -42,16 +41,16 @@ http {
     {{#services}}
 
     server {
-      listen 8080;
-      server_name {{proxy.domain}};
+      listen {{listen}};
+      server_name {{ingress_host}};
       location / {
-          proxy_pass http://{{name}}_services/;
+          proxy_pass http://{{name}}_service/;
       }
     }
     {{/services}}
 
     server {
-      listen 8080;
+      listen {{listen}};
       server_name _;
       location / {
         proxy_pass http://default/;

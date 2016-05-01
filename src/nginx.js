@@ -8,39 +8,42 @@ const quit = (code) => {
   process.exit(code || 1)
 }
 
-module.exports = () => {
-  const nginx = exec('nginx -g "daemon off;"', {}, (err, stdout, stderr) => {
-    debug('stdout', stdout)
-    debug('stderr', stderr)
+const execCb = (err, stdout, stderr) => {
+  debug('stdout', stdout)
+  debug('stderr', stderr)
 
-    if (err !== null) {
-      debug('exec error', err)
-      quit()
-    }
-  })
+  if (err !== null) {
+    debug('exec error', err)
+    quit()
+  }
+}
+
+module.exports = () => {
+
+  const nginx = exec('nginx -g "daemon off;"', execCb)
 
   nginx.on('close', (code, signal) => {
-    debug('nignx process close event', code, signal)
+    debug('process close event', code, signal)
     quit(code)
   })
 
   nginx.on('close', (code, signal) => {
-    debug('nignx process close event', code, signal)
+    debug('process close event', code, signal)
     quit(code)
   })
 
   nginx.on('error', (err) => {
-    debug('nignx process error event', err)
+    debug('process error event', err)
     quit()
   })
 
   nginx.on('exit', (code, signal) => {
-    debug('nignx process exit event', code, signal)
+    debug('process exit event', code, signal)
     quit(code)
   })
 
-
-  exec("nginx -s reload")
-  debug('ningx.conf updated')
-  
+  return () => {
+    exec("nginx -s reload", execCb)
+    debug('reloaded')
+  }
 }
