@@ -14,7 +14,7 @@ services:
     image: renegare/ecsproxy:4af3de9
     networks:
       default:
-        ipv4_address: 172.16.238.15
+        ipv4_address: 172.16.238.12
 
 networks:
   default:

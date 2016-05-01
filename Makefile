@@ -18,3 +18,10 @@ build:
 push:
 	docker push $(DOCKER_REPO)/$(APP_NAME):latest
 	docker push $(DOCKER_REPO)/$(APP_NAME):$(VERSION)
+
+update-webservices-ip:
+	docker inspect devopsproxy_webservices_1 | grep IPAddress
+	docker-compose stop webservices
+	docker-compose rm -f
+	docker-compose up -d webservices
+	docker inspect devopsproxy_webservices_1 | grep IPAddress
