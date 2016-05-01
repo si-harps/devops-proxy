@@ -1,15 +1,6 @@
-const Mustache = require('mustache')
 const debug = require('debug')('proxy:server')
-const exec = require('child_process').execSync
+const Mustache = require('mustache')
 const fs = require('fs')
-const yaml = require('js-yaml')
-
-// const consul = require('./src/consul')({
-//   CONSUL_HOST: process.env.CONSUL_HOST || '127.0.0.1',
-//   CONSUL_PORT: process.env.CONSUL_PORT || '8500',
-//   PROXIES_KEY: process.env.PROXIES_KEY || 'proxies'
-// })
-
 
 /**
 * proxyConf structure

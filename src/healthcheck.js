@@ -8,10 +8,16 @@ const versionPath = path.join(__dirname, '..', 'VERSION')
 const commit = fs.existsSync(versionPath) ? fs.readFileSync(versionPath, 'utf8').trim() : null
 
 
-module.exports = () => {
+module.exports = (proxies) => {
   const app = require('koa')()
   const router = require('koa-router')()
-  const services = {}
+  const services = proxies.reduce((services, service) => {
+    services[service.name] = Object.assign({
+      addresses: []
+    }, service)
+
+    return services
+  }, {})
 
   app.use(require('koa-static')(path.join(__dirname, '..', 'public')))
 
@@ -27,7 +33,7 @@ module.exports = () => {
   app.use(router.routes())
 
   app.setService = (service, addresses) => {
-    services[service] = addresses
+    services[service].addresses = addresses
   }
 
   return app
