@@ -6,30 +6,7 @@ services:
     ports:
       - 3000:3000
       - 8080:8080
-    environment:
-      # GET_CONSUL_HOST: http://e29ec31c.ngrok.io/
-      CONSUL_HOST: consul
-      PROXIES_KEY: 'mudi/was/here'
     volumes:
       - .:/app
-  consul:
-    image: gliderlabs/consul-server:0.6
-    command:
-      - -dev
-      - -ui
-    ports:
-      - 8500:8500
-  registrator:
-    image: renegare/registrator:5da7dd5
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock
-    command:
-      # - -resync
-      # - "5"
-      - -internal
-      - consul://consul:8500
-  mudi:
+  webservices:
     image: renegare/ecsproxy:4af3de9
-    environment:
-      SERVICE_NAME: mudi
-      SERVICE_TAGS: web,prod

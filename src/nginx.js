@@ -38,4 +38,9 @@ module.exports = () => {
     debug('nignx process exit event', code, signal)
     quit(code)
   })
+
+
+  exec("nginx -s reload")
+  debug('ningx.conf updated')
+  
 }

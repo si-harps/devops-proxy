@@ -8,11 +8,10 @@ const versionPath = path.join(__dirname, '..', 'VERSION')
 const commit = fs.existsSync(versionPath) ? fs.readFileSync(versionPath, 'utf8').trim() : null
 
 
-module.exports = (consul) => {
+module.exports = () => {
   const app = require('koa')()
   const router = require('koa-router')()
-  let availableServices = {}
-  consul.on('change', services => availableServices = services)
+  const services = {}
 
   app.use(require('koa-static')(path.join(__dirname, '..', 'public')))
 
@@ -20,15 +19,16 @@ module.exports = (consul) => {
     this.body = {
       name: pkg.name,
       version: pkg.version,
-      commit
+      commit,
+      services: services
     }
   })
 
-  router.get('/services', function * () {
-    this.body = availableServices
-  })
-
   app.use(router.routes())
+
+  app.setService = (service, addresses) => {
+    services[service] = addresses
+  }
 
   return app
 }
