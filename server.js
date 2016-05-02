@@ -25,13 +25,13 @@ const services = process.env.SERVICES.split(';').map(conf => {
 debug('configured services', services)
 
 const healthcheck = require('./src/healthcheck')(services)
-healthcheck.listen(3000)
+healthcheck.listen(process.env.HEALTHCHECK_PORT || 3000)
 
 // @todo should update nginx conf when address changes as well
 const template = fs.readFileSync(process.env.NGINX_TMPL_PATH || __dirname + '/nginx.conf.mu', 'utf8')
 const conf = Mustache.render(template, {
   services,
-  listen: 8080
+  listen: process.env.PROXY_PORT || 8080
 })
 debug('nginx configuration', "START >>>\n\n" + conf + "\n\nEND <<<")
 fs.writeFileSync('/etc/nginx/nginx.conf', conf)
