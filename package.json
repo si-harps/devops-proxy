@@ -1,24 +1,20 @@
 {
   "name": "devops-proxy",
   "version": "0.0.0-0",
-  "description": "Consul backed nginx proxy (nodejs backup server)",
+  "description": "nginx proxy (nodejs healthcheck and backup server)",
   "main": "server.js",
   "dependencies": {
     "bluebird": "^3.3.5",
-    "consul": "^0.25.0",
     "debug": "^2.2.0",
-    "js-yaml": "^3.6.0",
     "koa": "^1.2.0",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
-    "moment": "^2.13.0",
     "mustache": "^2.2.1"
   },
   "devDependencies": {
     "nodemon": "^1.9.1"
   },
   "scripts": {
-    "test": "ava",
     "dev": "nodemon `which npm` start"
   },
   "repository": {
@@ -26,7 +22,6 @@
     "url": "git+https://github.com/renegare/devops-proxy.git"
   },
   "keywords": [
-    "consul",
     "proxy",
     "web",
     "nignx",

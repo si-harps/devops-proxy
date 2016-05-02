@@ -25,26 +25,16 @@ http {
 
     keepalive_timeout  65;
 
-    upstream default {
-      server 127.0.0.1:3000;
-    }
-
-    {{#services}}
-    upstream {{name}}_service {
-      server {{egress_host}}:{{port}};
-      server 127.0.0.1:3000 backup;
-    }
-
-    {{/services}}
-
     # Proxies
     {{#services}}
 
     server {
+      resolver 127.0.0.11 valid=5s;
       listen {{listen}};
       server_name {{ingress_host}};
+      set $upstream_service {{egress_host}};
       location / {
-          proxy_pass http://{{name}}_service/;
+          proxy_pass http://$upstream_service:{{port}};
       }
     }
     {{/services}}
@@ -53,7 +43,7 @@ http {
       listen {{listen}};
       server_name _;
       location / {
-        proxy_pass http://default/;
+        proxy_pass http://127.0.0.1:3000;
       }
     }
 }

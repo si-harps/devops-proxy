@@ -5,7 +5,9 @@ debug('Starting nignx in subprocess')
 
 const quit = (code) => {
   debug('Quiting process as an error occurred')
-  process.exit(code || 1)
+  setTimeout(() => {
+    process.exit(code)
+  }, 3000)
 }
 
 const execCb = (err, stdout, stderr) => {

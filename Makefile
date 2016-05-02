@@ -2,7 +2,6 @@ VERSION=$(shell git rev-parse --short HEAD)
 DOCKER_REPO=renegare
 APP_NAME=devops-proxy
 
-
 build:
 	echo $(VERSION) > VERSION
 	docker build -t $(DOCKER_REPO)/$(APP_NAME):latest .

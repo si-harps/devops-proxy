@@ -27,8 +27,8 @@ debug('configured services', services)
 const healthcheck = require('./src/healthcheck')(services)
 healthcheck.listen(3000)
 
+// @todo should update nginx conf when address changes as well
 const template = fs.readFileSync(process.env.NGINX_TMPL_PATH || __dirname + '/nginx.conf.mu', 'utf8')
-
 const conf = Mustache.render(template, {
   services,
   listen: 8080
