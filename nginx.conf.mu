@@ -29,12 +29,14 @@ http {
     {{#services}}
 
     server {
-      resolver 127.0.0.11 valid=5s;
+      resolver {{dns}} valid=5s ipv6=off;
       listen {{listen}};
       server_name {{ingress_host}};
       set $upstream_service {{egress_host}};
       location / {
           proxy_pass http://$upstream_service:{{port}};
+          proxy_set_header Host            $host;
+          proxy_set_header X-Forwarded-For $remote_addr;
       }
     }
     {{/services}}

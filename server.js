@@ -31,6 +31,7 @@ healthcheck.listen(process.env.HEALTHCHECK_PORT || 3000)
 const template = fs.readFileSync(process.env.NGINX_TMPL_PATH || __dirname + '/nginx.conf.mu', 'utf8')
 const conf = Mustache.render(template, {
   services,
+  dns: require('dns').getServers().shift(),
   listen: process.env.PROXY_PORT || 8080
 })
 debug('nginx configuration', "START >>>\n\n" + conf + "\n\nEND <<<")
