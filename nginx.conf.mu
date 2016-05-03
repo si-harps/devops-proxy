@@ -29,7 +29,7 @@ http {
       listen {{listen}} default_server;
       server_name _;
       location / {
-        proxy_pass http://127.0.0.1:8080;
+        proxy_pass http://127.0.0.1:{{healthcheckPort}};
         proxy_set_header Host            $host;
         proxy_set_header X-Forwarded-For $remote_addr;
       }

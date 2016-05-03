@@ -7,7 +7,7 @@ const fs = require('fs')
 [
   {
     name => service name
-    ingress_host => incoming host
+    ingress_host => incoming host(s)
     egress_host => proxied host
     port => service port
   }
@@ -24,15 +24,17 @@ const services = process.env.SERVICES.split(';').map(conf => {
 })
 debug('configured services', services)
 
+const healthcheckPort = process.env.HEALTHCHECK_PORT || 3000
 const healthcheck = require('./src/healthcheck')(services)
-healthcheck.listen(process.env.HEALTHCHECK_PORT || 3000)
+healthcheck.listen(healthcheckPort)
 
 // @todo should update nginx conf when address changes as well
 const template = fs.readFileSync(process.env.NGINX_TMPL_PATH || __dirname + '/nginx.conf.mu', 'utf8')
 const conf = Mustache.render(template, {
   services,
   dns: require('dns').getServers().shift(),
-  listen: process.env.PROXY_PORT || 8080
+  listen: process.env.PROXY_PORT || 8080,
+  healthcheckPort: healthcheckPort
 })
 debug('nginx configuration', "START >>>\n\n" + conf + "\n\nEND <<<")
 fs.writeFileSync('/etc/nginx/nginx.conf', conf)
