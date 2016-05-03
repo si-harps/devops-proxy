@@ -25,6 +25,16 @@ http {
 
     keepalive_timeout  65;
 
+    server {
+      listen {{listen}} default_server;
+      server_name _;
+      location / {
+        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header Host            $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+      }
+    }
+
     # Proxies
     {{#services}}
 
@@ -40,12 +50,4 @@ http {
       }
     }
     {{/services}}
-
-    server {
-      listen {{listen}};
-      server_name _;
-      location / {
-        proxy_pass http://127.0.0.1:3000;
-      }
-    }
 }

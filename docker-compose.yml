@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/app
     environment:
-      SERVICES: webservices:_:webservices:3000
+      SERVICES: webservices:api.webservices.com www.webservices.com:webservices:3000
       HEALTHCHECK_PORT: 8080
       PROXY_PORT: 80
   webservices:
