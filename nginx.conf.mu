@@ -31,7 +31,7 @@ http {
       location / {
         proxy_pass http://127.0.0.1:{{healthcheckPort}};
         proxy_set_header Host            $host;
-        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-For $http_x_forwarded_for;
       }
     }
 
@@ -46,7 +46,7 @@ http {
       location / {
           proxy_pass http://$upstream_service:{{port}};
           proxy_set_header Host            $host;
-          proxy_set_header X-Forwarded-For $remote_addr;
+          proxy_set_header X-Forwarded-For $http_x_forwarded_for;
       }
     }
     {{/services}}
