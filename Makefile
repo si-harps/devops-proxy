@@ -1,5 +1,5 @@
 VERSION=$(shell git rev-parse --short HEAD)
-DOCKER_REPO=renegare
+DOCKER_REPO=dkws
 APP_NAME=devops-proxy
 
 build:

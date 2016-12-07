@@ -44,6 +44,7 @@ http {
       server_name {{ingress_host}};
       set $upstream_service {{egress_host}};
       location / {
+          client_body_buffer_size 1m;
           proxy_pass http://$upstream_service:{{port}};
           proxy_set_header Host            $host;
           proxy_set_header X-Forwarded-For $http_x_forwarded_for;
